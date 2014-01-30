@@ -1,0 +1,261 @@
+#!/usr/bin/php
+<?php
+require_once('util.php');
+require_once('jsonRPCClient.php');
+
+// Global Settings Vars
+//Memorycoin rpc
+$rpchost = "localhost";
+$rpcport = "1925";
+$rpcuser = "rpcuser";
+$rpcpass = "rpcpass";
+
+//Database
+$dbhost = "localhost";
+$dbuser = "dbuser";
+$dbpass = "dbpass";
+$dbdata = "dbname";
+
+echo "\nMMC-BlockChain-DB import script\n";
+echo "written by FaSan (c) 2014. All rights reserved.\n";
+        
+mysql_connect($dbhost, $dbuser, $dbpass) or die(mysql_error());
+mysql_select_db($dbdata) or die(mysql_error());
+
+$result = mysql_query("SELECT `height` FROM `blocks` ORDER BY `height` DESC LIMIT 1") or die(mysql_error());
+$data = mysql_fetch_assoc($result);
+
+if (!$data) {
+	$numblock = 0;
+} else {
+	$numblock = $data['height'] + 1;
+}
+
+$rpcQuery = new jsonRPCClient("http://".$rpcuser.":".$rpcpass."@".$rpchost.":".$rpcport);
+$blocknum = $rpcQuery->getblockcount();
+
+if ($blocknum > $data['height']) {
+	for ($i = $numblock; $i <= $blocknum; $i++) {
+		$info = 0;
+		$blockhash = $rpcQuery->getblockhash($i);
+		echo "$i (" . trim($blockhash) . ") ... ";
+
+		process_block($blockhash);
+
+		echo "($info tx)\n";
+	}
+} else {
+	echo "New Blocks not found";
+	die();
+}
+
+function simplifyscript($script) {
+	$script = preg_replace("/[0-9a-f]+ OP_DROP ?/", "", $script);
+	$script = preg_replace("/OP_NOP ?/", "", $script);
+	return trim($script);
+}
+
+function updateKeys($hash160, $pubkey, $blockhash) {
+	$address = hash160ToAddress($hash160);
+	$sql = "SELECT `pubkey`, `hash160` FROM `keys` WHERE `hash160` = '$hash160'";
+	$result = mysql_query($sql) or die(mysql_error());
+	$row = mysql_fetch_assoc($result);
+
+	if(!$row && !is_null($pubkey)) {
+		$sql = "INSERT INTO `keys` (`hash160`, `address`, `pubkey`, `firstseen`) VALUES ('$hash160', '$address', '$pubkey', '$blockhash');";
+	} else if(!$row) {
+		$sql = "INSERT INTO `keys` (`hash160`, `address`, `firstseen`) VALUES ('$hash160', '$address', '$blockhash');";
+	} else if($row && !is_null($pubkey) && is_null($row["pubkey"])) {
+		$sql = "UPDATE `keys` SET `pubkey` = '$pubkey' WHERE `hash160` = '$hash160';";
+	}
+	
+	mysql_query($sql) or die(mysql_error());
+}
+
+function update_oldblocks($height) {
+	global $rpcQuery;
+	
+	$height = $height - 1;
+	$blockhash = $rpcQuery->getblockhash($height);
+	$decoded = $rpcQuery->getblock($blockhash);
+	$nextblockhash = $decoded["nextblockhash"];
+
+	$sql = "UPDATE `blocks` SET `nextblockhash` = '$nextblockhash' WHERE `height` = '$height';";
+	mysql_query($sql) or die(mysql_error());
+
+	$sql = "UPDATE `blocks` SET `confirmations` = `confirmations` + 1;";
+	mysql_query($sql) or die(mysql_error());
+
+	$sql = "UPDATE `transactions` SET `confirmations` = `confirmations` + 1;";
+	mysql_query($sql) or die(mysql_error());
+	
+	return;
+}
+
+function process_block($blockhash) {
+	global $info, $rpcQuery;
+	
+	$decoded = $rpcQuery->getblock($blockhash);
+	$rawblock = json_encode($decoded);
+	
+	$height = $decoded['height'];
+	$size = $decoded['size'];
+	$version = $decoded['version'];
+	$merkleroot = $decoded['merkleroot'];
+	$time = $decoded['time'];
+	$nonce = $decoded['nonce'];
+	$bits = $decoded['bits'];
+	$difficulty = $decoded['difficulty'];
+	$totalvalue = 0;
+	$totalfee = 0;
+	$txn = count($decoded['tx']);
+	$txs = $decoded['tx'];
+
+	if($height == "0") {
+		$previousblockhash = "0000000000000000000000000000000000000000000000000000000000000000";
+	} else {
+		$previousblockhash = $decoded['previousblockhash'];
+		
+		update_oldblocks($height);
+	}
+
+	$nextblockhash = $decoded['nextblockhash'];
+
+	$sql  = "INSERT INTO `blocks` (`height`, `hash`, `confirmations`, `size`, `version`, `merkleroot`, `time`, `nonce`, `bits`, `difficulty`, `totalvalue`, `totalfee`, `transactions`, `previousblockhash`, `nextblockhash`, `rawblock`) ";
+	$sql .= "VALUES ('$height', '$blockhash', '1', '$size', '$version', '$merkleroot', '$time', '$nonce', '$bits', '$difficulty', '$totalvalue', '$totalfee', '$txn', '$previousblockhash', '$nextblockhash', '$rawblock');";
+	
+	mysql_query($sql) or die(mysql_error());
+
+	if($height == "0") {
+		$info++;
+		$sql  = "INSERT INTO `transactions` (`hash`, `block`, `confirmations`, `time`, `fee`, `txraw`)";
+		$sql .= "VALUES ('7222184ed88a400fd62444b7894ca67bc7a8c04145e19c5adf1236ef82ae4efb', '$blockhash', '1', '$time', '0', '');";
+		mysql_query($sql) or die(mysql_error());
+	} else {
+		foreach($txs as $tx) {
+			$txvalue = process_transaction($tx, $blockhash, $height);
+			$totalvalue = $totalvalue + $txvalue;
+		}
+	
+		$sql = "UPDATE `blocks` SET `totalvalue` = '$totalvalue' WHERE `hash` = '$blockhash';";
+		mysql_query($sql) or die(mysql_error());
+
+		$sql = "UPDATE `blocks` SET `totalfee` = (SELECT sum(`fee`) from `transactions` WHERE `block` = '$blockhash') WHERE `hash` = '$blockhash';";
+		mysql_query($sql) or die(mysql_error());
+	}
+	
+	return;
+}
+
+function process_transaction($txhash, $blockhash, $blocknum) {
+	global $info, $rpcQuery;
+	
+    $info++;
+	$prevtx = 0;
+	$txvalue = 0;
+	$index = 0;
+	$hash160 = NULL;
+	$type = NULL;
+	$prev = NULL;
+	
+    $decoded = $rpcQuery->getrawtransaction($txhash, 1);
+    $rawtx = json_encode($decoded); 
+
+	$time = $decoded['time'];
+	
+    $sql  = "INSERT INTO `transactions` (`hash`, `block`, `confirmations`, `time`, `txraw`) ";
+    $sql .= "VALUES ('$txhash', '$blockhash', '1', '$time', '$rawtx');";
+    
+    mysql_query($sql) or die(mysql_error());
+
+    foreach($decoded["vin"] as $input) {
+		if(isset($input['coinbase'])) {
+			$type = "Generation";
+			$value = 280;
+			
+		    if($blocknum < 240){
+				$value = $value / (240 - $blocknum);
+			} else {
+				$counter = (int)($blocknum / 1680);
+			
+				for($i = 0; $i < $counter; $i++){
+					$value = $value * 19 / 20;
+				}
+				
+				if($value < (float)"2.15"){
+					$value = (float)"2.15";
+				}
+			}
+			
+			$scriptsig = $input['coinbase'];
+		} else {
+			$prev = $input['txid'];
+			$index = $input['vout'];
+			$scriptsig = $input['scriptSig']['asm'];
+			$simplescriptsig = simplifyscript($scriptsig);
+			
+			$sql = "SELECT `value`, `type`, `hash160` FROM `outputs` WHERE `index` = '$index' AND `tx` = '$prev';";
+			$result = mysql_query($sql) or die(mysql_error());
+			$prevtx = mysql_fetch_assoc($result);
+			
+			$value = $prevtx["value"];
+			$type = $prevtx["type"];
+			$hash160 = $prevtx["hash160"];
+			
+			if($type == "Address") {
+				if(preg_match("/^[0-9a-f]+ [0-9a-f]{66,130}$/", $simplescriptsig)) {
+					$pubkey = preg_replace("/^[0-9a-f]+ ([0-9a-f]{66,130})$/", "$1", $simplescriptsig);
+					$hash160 = strtolower(hash160($pubkey));
+					updateKeys($hash160, $pubkey, $blockhash);
+				}
+			}
+		}
+		
+		$sql  = "INSERT INTO `inputs` (`tx`, `prev`, `index`, `value`, `scriptsig`, `hash160`, `type`, `block`) ";
+		$sql .=	"VALUES ('$txhash', '$prev', '$index', '$value', '$scriptsig', '$hash160', '$type', '$blockhash');";
+		
+		mysql_query($sql) or die(mysql_error());
+    }    
+    
+	$index = -1;
+	$value = 0;
+	
+    foreach($decoded["vout"] as $output) {
+		$hash160 = NULL;
+		$type = NULL;
+		
+		$index = $output['n'];
+		$value = $output['value'];
+		$txvalue = bcadd($txvalue, $value, 8);
+		
+		$scriptpubkey = $output['scriptPubKey']['asm'];
+		$simplescriptpk = simplifyscript($scriptpubkey);
+		
+		//To pubkey
+		if(preg_match("/^[0-9a-f]{66,130} OP_CHECKSIG$/", $simplescriptpk)) {
+			$type = "Pubkey";
+			$pubkey = preg_replace("/^([0-9a-f]{66,130}) OP_CHECKSIG$/", "$1", $simplescriptpk);
+			$hash160 = strtolower(hash160($pubkey));
+			updateKeys($hash160, $pubkey, $blockhash);
+		}
+		
+		//To BC address
+		if(preg_match("/^OP_DUP OP_HASH160 [0-9a-f]{40} OP_EQUALVERIFY OP_CHECKSIG$/", $simplescriptpk)) {
+			$type = "Address";
+			$hash160 = preg_replace("/^OP_DUP OP_HASH160 ([0-9a-f]{40}) OP_EQUALVERIFY OP_CHECKSIG$/", "$1", $simplescriptpk);
+			updateKeys($hash160, NULL, $blockhash);
+		}
+
+		$sql  = "INSERT INTO `outputs` (`tx`, `index`, `value`, `scriptpubkey`, `hash160`, `type`, `block`) "; 
+		$sql .=	"VALUES ('$txhash', '$index', '$value', '$scriptpubkey', '$hash160', '$type', '$blockhash');";
+							
+		mysql_query($sql) or die(mysql_error());
+    }
+	
+	$sql  = "UPDATE `transactions` SET `fee` = (SELECT (SELECT sum(`value`) FROM `inputs` WHERE `tx` = '$txhash')-(SELECT sum(`value`) from `outputs` WHERE `tx` = '$txhash')) WHERE `hash` = '$txhash';";
+	
+	mysql_query($sql) or die(mysql_error());
+	
+	return $txvalue;
+}
+?>

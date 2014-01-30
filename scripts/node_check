@@ -1,0 +1,23 @@
+#!/usr/bin/php
+<?php
+
+//This script check the nodes already setup in DB table. You have to setup nodes in the DB table manually
+mysql_connect("localhost", "dbuser", "dbpass") or die(mysql_error());
+mysql_select_db("memorycoin");
+
+$sql = "SELECT * FROM `nodes` ORDER BY `id` ASC";
+$result = mysql_query($sql) or die(mysql_error());
+
+while($node = mysql_fetch_array($result)) {
+   $fsock = fsockopen($node['ip'], $node['port'], $errno, $errstr, 10);
+
+   if (!$fsock) { 
+	$sql = "UPDATE `nodes` SET `status` = '0' WHERE `ip` = '".$node['ip']."';"; 
+   } else { 
+	$sql = "UPDATE `nodes` SET `status` = '1' WHERE `ip` = '".$node['ip']."';";
+   }
+
+   mysql_query($sql) or die(mysql_error());
+}
+
+?>
