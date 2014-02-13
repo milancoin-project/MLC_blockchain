@@ -11,7 +11,7 @@
 	<meta property="og:description" content="MLC-Chain.com provides a powerful innovative MemoryCoin Block Explorer" />
 	<link id="page_favicon" href="/blockpath/img/favicon.ico" rel="icon" type="image/x-icon" />
 	<link rel="stylesheet" type="text/css" href="/blockpath/css/style.css">
-	<link rel="stylesheet" type="text/css" href="/blockpath/css/fonts.css">
+	<link rel="stylesheet" type="text/css" href="/blockpath/css/blockpath/fonts.css">
 	<style type="text/css">.cf-hidden { display: none; } .cf-invisible { visibility: hidden; }</style>
 </head>
 <body>
