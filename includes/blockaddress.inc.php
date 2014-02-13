@@ -3,9 +3,9 @@
 $txrows = "";
 $totalvalue = 0;
 $received_txs = 0;
-$received_mmc = 0;
+$received_mlc = 0;
 $sent_txs = 0;
-$sent_mmc = 0;
+$sent_mlc = 0;
 
 $stmt = $mysqli->prepare("SELECT `keys`.`hash160`, `keys`.`address`, `keys`.`firstseen`, `blocks`.`height`, `blocks`.`time` FROM `keys` LEFT JOIN `blocks` ON (`blocks`.`hash` = `keys`.`firstseen`) WHERE `address` LIKE ? LIMIT 1");
 $stmt->bind_param('s', $address);
@@ -37,10 +37,10 @@ while ($stmt->fetch()) {
 
 	if($type == "credit") {
 		$received_txs++;
-		$received_mmc = bcadd($received_mmc, $value, 8);
+		$received_mlc = bcadd($received_mlc, $value, 8);
 	} elseif($type == 'debit') {
 		$sent_txs++;
-		$sent_mmc = bcadd($sent_mmc, $value, 8);
+		$sent_mlc = bcadd($sent_mlc, $value, 8);
 	}
 			
 	//TX Output
@@ -63,13 +63,13 @@ while ($stmt->fetch()) {
 	$txrows .= '
 				<tr>
 					<td class="blocksHash">
-						<a href="http://www.mmc-chain.com/?engine=blockexplorer&blockid=' . $blocknum . '" class="internal transactionLink">' . $blocknum . '</a></td>
+						<a href="/blockpath/index.php?engine=blockexplorer&blockid=' . $blocknum . '" class="internal transactionLink">' . $blocknum . '</a></td>
 					<td class="transactionHash">
-						<a href="http://www.mmc-chain.com/?engine=blockexplorer&tx=' . $tx . '" class="internal transactionLink">' . $tx . '</a>
+						<a href="/blockpath/index.php?engine=blockexplorer&tx=' . $tx . '" class="internal transactionLink">' . $tx . '</a>
 					</td>
 					<td class="hide-for-small transactedDate">' . gmdate("M j Y g:i:s A", $time2) . '</td>
-					<td class="transactedAmount"><img class="transactionDirection" src="/img/' . $type .'.png" /></td>
-					<td class="transactedAmount" style="text-align: right;">' . number_format($value, 8, '.', ',') . ' MMC</td>
+					<td class="transactedAmount"><img class="transactionDirection" src="/blockpath/img/' . $type .'.png" /></td>
+					<td class="transactedAmount" style="text-align: right;">' . number_format($value, 8, '.', ',') . ' MLC</td>
 				</tr>';	
 }
 								 
@@ -78,10 +78,10 @@ while ($stmt->fetch()) {
 <div id="logo-region">
   <div class="row">
     <div class="small-8 large-3 large-offset-0 small-offset-2 columns logo">
-	<a href="http://www.mmc-chain.com" class="internal"><img src="/img/logo_small.png" alt="" /></a>
+	<a href="/blockpath/" class="internal"><img src="/blockpath/img/logo_small.png" alt="" /></a>
     </div>
     <div class="large-9 small-12 columns main-search-box" style="margin-bottom: 0">
-	<form action="/?engine=search" method="POST" >
+	<form action="/blockpath/index.php?engine=search" method="POST" >
 		<input id="searchBox" name="query" type="text" placeholder="Search for block, transaction or address in " style="font-size: 1.2em;" size="64" />
 	</form>
 	</div>
@@ -95,7 +95,7 @@ while ($stmt->fetch()) {
 		<div id="address-region"><div class="address-details"><div class="row">
     <div class="large-12 columns">
         <ul class="breadcrumbs">
-            <li><a class="internal" href="http://www.mmc-chain.com/?engine=blockexplorer">blockchain</a></li>
+            <li><a class="internal" href="/blockpath/index.php?engine=blockexplorer">blockchain</a></li>
             <li class="unavailable"><a href="" class="internal">Address</a></li>
             <li class="current"><a href="" class="internal"><?php echo $address; ?></a></li>
         </ul>
@@ -113,12 +113,12 @@ while ($stmt->fetch()) {
             <tr><td class="tableRowLabel">Hash160</td><td class="tableRowValue"><?php echo $hash160; ?></td></tr>
 			<tr>
 				<td class="tableRowLabel">FirstSeen</td><td class="tableRowValue">
-					<a href="http://www.mmc-chain.com/?engine=blockexplorer&hash=<?php echo $firstseen; ?>" class="internal transactionLink"><?php echo gmdate("M j Y g:i:s A", $time); ?> - Block n. <?php echo $height; ?></a>
+					<a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $firstseen; ?>" class="internal transactionLink"><?php echo gmdate("M j Y g:i:s A", $time); ?> - Block n. <?php echo $height; ?></a>
 				</td>
 			</tr>
-            <tr><td class="tableRowLabel">Total Received</td><td class="tableRowValue"><?php echo number_format($received_mmc, 8, '.', ','); ?> MMC</td></tr>
-            <tr><td class="tableRowLabel">Total Sent</td><td class="tableRowValue"><?php echo number_format($sent_mmc, 8, '.', ','); ?> MMC</td></tr>
-			 <tr><td class="tableRowLabel">Current Balance</td><td class="tableRowValue"><b><?php echo number_format($received_mmc - $sent_mmc, 8, '.', ','); ?> MMC</b></td></tr>
+            <tr><td class="tableRowLabel">Total Received</td><td class="tableRowValue"><?php echo number_format($received_mlc, 8, '.', ','); ?> MLC</td></tr>
+            <tr><td class="tableRowLabel">Total Sent</td><td class="tableRowValue"><?php echo number_format($sent_mlc, 8, '.', ','); ?> MLC</td></tr>
+			 <tr><td class="tableRowLabel">Current Balance</td><td class="tableRowValue"><b><?php echo number_format($received_mlc - $sent_mlc, 8, '.', ','); ?> MLC</b></td></tr>
         </tbody></table>
     </div>
     <div id="address-qrcode" class="large-3 columns" style="padding-top: 25px;">

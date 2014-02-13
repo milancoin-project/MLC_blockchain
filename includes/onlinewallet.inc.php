@@ -1,5 +1,5 @@
 <?php
 
-header('Location: https://secure.mmc-wallet.com');
+header('Location: http://www.milancoin.org');
 
 ?>

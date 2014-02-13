@@ -2,10 +2,10 @@
 <div id="logo-region">
   <div class="row">
     <div class="small-8 large-3 large-offset-0 small-offset-2 columns logo">
-	<a href="http://www.mmc-chain.com" class="internal"><img src="/img/logo_small.png" alt="" /></a>
+	<a href="/blockpath/" class="internal"><img src="/blockpath/img/logo_small.png" alt="" /></a>
     </div>
     <div class="large-9 small-12 columns main-search-box" style="margin-bottom: 0">
-	<form action="/?engine=search" method="POST" >
+	<form action="/blockpath/index.php?engine=search" method="POST" >
 		<input id="searchBox" name="query" type="text" placeholder="Search for block, transaction or address in " style="font-size: 1.2em;" size="64" />
 	</form>
 	</div>
@@ -56,8 +56,8 @@
 				<td class="blocksAmount"><b>' . $port . '</b></td>
 				<td class="blocksAmount hide-for-small">' . $dns . '</td>
 				<td class="blocksAmount hide-for-small">' . $geo . '</td>
-				<td class="blocksAmount hide-for-small"><img src="/img/' . $churn . '" alt="" /></td>
-				<td class="blocksAmount"><img src="/img/' . $status . '" alt="" /></td>
+				<td class="blocksAmount hide-for-small"><img src="/blockpath/img/' . $churn . '" alt="" /></td>
+				<td class="blocksAmount"><img src="/blockpath/img/' . $status . '" alt="" /></td>
 			</tr>';
 		} else {
 			$outnode .= '
@@ -66,8 +66,8 @@
 				<td class="blocksAmount"><b>' . $port . '</b></td>
 				<td class="blocksAmount hide-for-small"><a href="https://bitsharestalk.org/index.php?action=profile;user=' . $dns . '" target="_blank">' . $dns . '</a></td>
 				<td class="blocksAmount hide-for-small">' . $geo . '</td>
-				<td class="blocksAmount hide-for-small"><img src="/img/' . $churn . '" alt="" /></td>
-				<td class="blocksAmount"><img src="/img/' . $status . '" alt="" /></td>
+				<td class="blocksAmount hide-for-small"><img src="/blockpath/img/' . $churn . '" alt="" /></td>
+				<td class="blocksAmount"><img src="/blockpath/img/' . $status . '" alt="" /></td>
 			</tr>';
 		}
 	}

@@ -28,14 +28,14 @@ while ($stmt->fetch()) {
 	if ($inaddress) {
 		$input .= '
 					<tr>
-                        <td><a href="http://www.mmc-chain.com/?engine=blockexplorer&address=' . $inaddress .'" class="internal">' . $inaddress .'</a></td>
-                        <td style="text-align: right;">' . number_format($invalue, 8, '.', ',') .' MMC</td>
+                        <td><a href="/blockpath/index.php?engine=blockexplorer&address=' . $inaddress .'" class="internal">' . $inaddress .'</a></td>
+                        <td style="text-align: right;">' . number_format($invalue, 8, '.', ',') .' MLC</td>
                     </tr>';
 	} else {
 		$input .= '
 					<tr>
                         <td>Mined Block Reward</td>
-						<td style="text-align: right;">' . number_format($invalue, 8, '.', ',') .' MMC</td>
+						<td style="text-align: right;">' . number_format($invalue, 8, '.', ',') .' MLC</td>
                     </tr>';
 	}
 	
@@ -52,8 +52,8 @@ $stmt->bind_result($outvalue, $outaddress);
 while ($stmt->fetch()) {
 	$output .= '
 				<tr>
-                    <td><a href="http://www.mmc-chain.com/?engine=blockexplorer&address=' . $outaddress .'" class="internal">' . $outaddress .'</a></td>
-                    <td style="text-align: right;">' . number_format($outvalue, 8, '.', ',') .' MMC</td>
+                    <td><a href="/blockpath/index.php?engine=blockexplorer&address=' . $outaddress .'" class="internal">' . $outaddress .'</a></td>
+                    <td style="text-align: right;">' . number_format($outvalue, 8, '.', ',') .' MLC</td>
                 </tr>';
 
 	if (!$inaddress && substr( $outaddress, 0, 4 ) === "MVTE") {
@@ -73,10 +73,10 @@ if ($totalfees < 0) $totalfees = -$totalfees;
 <div id="logo-region">
   <div class="row">
     <div class="small-8 large-3 large-offset-0 small-offset-2 columns logo">
-	<a href="http://www.mmc-chain.com" class="internal"><img src="/img/logo_small.png" alt="" /></a>
+	<a href="/blockpath/" class="internal"><img src="/blockpath/img/logo_small.png" alt="" /></a>
     </div>
     <div class="large-9 small-12 columns main-search-box" style="margin-bottom: 0">
-	<form action="/?engine=search" method="POST" >
+	<form action="/blockpath/index.php?engine=search" method="POST" >
 		<input id="searchBox" name="query" type="text" placeholder="Search for block, transaction or address in " style="font-size: 1.2em;" size="64" />
 	</form>
 	</div>
@@ -90,9 +90,9 @@ if ($totalfees < 0) $totalfees = -$totalfees;
 		<div id="transaction-region"><div class="transaction-details"><div class="row">
     <div class="large-12 columns">
         <ul class="breadcrumbs">
-            <li><a class="internal" href="http://www.mmc-chain.com/?engine=blockexplorer">blockchain</a></li>
-            <li class="unavailable"><a href="http://www.mmc-chain.com/?engine=blockexplorer" class="internal">Transactions</a></li>
-            <li class="current"><a href="http://www.mmc-chain.com/?engine=blockexplorer&tx=<?php echo $txhash; ?>" class="internal">#<?php echo $txhash; ?></a></li>
+            <li><a class="internal" href="/blockpath/index.php?engine=blockexplorer">blockchain</a></li>
+            <li class="unavailable"><a href="/blockpath/index.php?engine=blockexplorer" class="internal">Transactions</a></li>
+            <li class="current"><a href="/blockpath/index.php?engine=blockexplorer&tx=<?php echo $txhash; ?>" class="internal">#<?php echo $txhash; ?></a></li>
         </ul>
         <h2>Transaction <small class="hash">#<?php echo $txhash; ?></small></h2>
     </div>
@@ -113,15 +113,15 @@ if ($totalfees < 0) $totalfees = -$totalfees;
 				</tr>
                 <tr>
 					<td class="tableRowLabel">In Blocks</td><td class="tableRowValue hashSize">
-						<a href="http://www.mmc-chain.com/?engine=blockexplorer&hash=<?php echo $block; ?>" class="internal"><?php echo $block; ?></a><br />
+						<a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $block; ?>" class="internal"><?php echo $block; ?></a><br />
 					</td>
                 </tr>
-                <tr><td class="tableRowLabel">Total Input</td><td class="tableRowValue"><?php echo number_format($totalinput, 8, '.', ','); ?> MMC</td></tr>
-                <tr><td class="tableRowLabel">Total Output</td><td class="tableRowValue"><?php echo number_format($totaloutput, 8, '.', ','); ?> MMC</td></tr>
+                <tr><td class="tableRowLabel">Total Input</td><td class="tableRowValue"><?php echo number_format($totalinput, 8, '.', ','); ?> MLC</td></tr>
+                <tr><td class="tableRowLabel">Total Output</td><td class="tableRowValue"><?php echo number_format($totaloutput, 8, '.', ','); ?> MLC</td></tr>
 <?php if (!$inaddress) { ?>
-				<tr><td class="tableRowLabel">Staff Salary</td><td class="tableRowValue"><?php echo number_format($totalsalary, 8, '.', ','); ?> MMC</td></tr>
+				<tr><td class="tableRowLabel">Staff Salary</td><td class="tableRowValue"><?php echo number_format($totalsalary, 8, '.', ','); ?> MLC</td></tr>
 <?php } ?>
-                <tr><td class="tableRowLabel">Block Fees</td><td class="tableRowValue"><?php echo number_format($totalfees, 8, '.', ','); ?> MMC</td></tr>
+                <tr><td class="tableRowLabel">Block Fees</td><td class="tableRowValue"><?php echo number_format($totalfees, 8, '.', ','); ?> MLC</td></tr>
             </tbody>
         </table>
         

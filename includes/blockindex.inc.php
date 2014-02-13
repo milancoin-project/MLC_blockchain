@@ -13,7 +13,7 @@ while ($stmt->fetch()) {
 
 	$txrow .= '
             <tr class="block-member"><td class="blocksAmount"><b>' . $height . '</b></td>
-<td class="blocksHash"><a href="http://www.mmc-chain.com/?engine=blockexplorer&hash=' . $hash . '" class="internal transactionLink">' . $hash . '</a></td>
+<td class="blocksHash"><a href="/blockpath/index.php?engine=blockexplorer&hash=' . $hash . '" class="internal transactionLink">' . $hash . '</a></td>
 <td class="blocksDate hide-for-small">' . gmdate("M j Y g:i:s A", $time) . '</td>
 <td class="blocksAmount hide-for-small" style="text-align: center">' . $transactions . '</td>
 <td class="blocksAmount hide-for-small" style="text-align: center">' . $size . '</td>
@@ -27,10 +27,10 @@ $stmt->close();
 <div id="logo-region">
   <div class="row">
     <div class="small-8 large-3 large-offset-0 small-offset-2 columns logo">
-	<a href="http://www.mmc-chain.com" class="internal"><img src="/img/logo_small.png" alt="" /></a>
+	<a href="/blockpath/" class="internal"><img src="/blockpath/img/logo_small.png" alt="" /></a>
     </div>
     <div class="large-9 small-12 columns main-search-box" style="margin-bottom: 0">
-	<form action="/?engine=search" method="POST" >
+	<form action="/blockpath/index.php?engine=search" method="POST" >
 		<input id="searchBox" name="query" type="text" placeholder="Search for block, transaction or address in " style="font-size: 1.2em;" size="64" />
 	</form>
 	</div>
@@ -44,9 +44,9 @@ $stmt->close();
         <div id="blocks-region"><div><div class="row">
     <div class="large-12 columns">
         <ul class="breadcrumbs">
-            <li><a href="http://www.mmc-chain.com" class="internal">Home</a></li>
+            <li><a href="/blockpath/" class="internal">Home</a></li>
             <li class="current">blockchain</li>
-            <li class="current"><a href="http://www.mmc-chain.com/?engine=blockexplorer" class="internal">Blocks</a></li>
+            <li class="current"><a href="/blockpath/index.php?engine=blockexplorer" class="internal">Blocks</a></li>
         </ul>
     </div>
 </div>

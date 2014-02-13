@@ -41,10 +41,10 @@ while ($stmt->fetch()) {
 	
 	$txrows .= '
 		<tr>
-			<td class="transactionHash"><a href="http://www.mmc-chain.com/?engine=blockexplorer&tx=' . $txhash . '" class="internal transactionLink">' . $txhash . '</a></td>
+			<td class="transactionHash"><a href="/blockpath/index.php?engine=blockexplorer&tx=' . $txhash . '" class="internal transactionLink">' . $txhash . '</a></td>
 			<td class="transactedDate hide-for-small">' . gmdate("M j Y g:i:s A", $txtime) . '</td>
 			<td class="transactedAmount hide-for-small">' . number_format($txfee, 8, '.', ',') . '</td>
-			<td class="transactedAmount hide-for-small">' . number_format($txoutvalue, 8, '.', ',') . ' MMC</td>
+			<td class="transactedAmount hide-for-small">' . number_format($txoutvalue, 8, '.', ',') . ' MLC</td>
 		</tr>';	
 }
 
@@ -66,10 +66,10 @@ if ($reward > 280) {
 <div id="logo-region">
   <div class="row">
     <div class="small-8 large-3 large-offset-0 small-offset-2 columns logo">
-	<a href="http://www.mmc-chain.com" class="internal"><img src="/img/logo_small.png" alt="" /></a>
+	<a href="/blockpath/" class="internal"><img src="/blockpath/img/logo_small.png" alt="" /></a>
     </div>
     <div class="large-9 small-12 columns main-search-box" style="margin-bottom: 0">
-	<form action="/?engine=search" method="POST" >
+	<form action="/blockpath/index.php?engine=search" method="POST" >
 		<input id="searchBox" name="query" type="text" placeholder="Search for block, transaction or address in " style="font-size: 1.2em;" size="64" />
 	</form>
 	</div>
@@ -82,8 +82,8 @@ if ($reward > 280) {
 		<div id="block-region"><div class="block-details"><div class="row">
     <div class="large-12 columns">
         <ul class="breadcrumbs">
-            <li><a class="internal" href="http://www.mmc-chain.com/?engine=blockexplorer">blockchain</a></li>
-            <li class="current"><a href="http://www.mmc-chain.com/?engine=blockexplorer&blockid=<?php echo $height; ?>" class="internal">Block #<?php echo $height; ?></a></li>
+            <li><a class="internal" href="/blockpath/index.php?engine=blockexplorer">blockchain</a></li>
+            <li class="current"><a href="/blockpath/index.php?engine=blockexplorer&blockid=<?php echo $height; ?>" class="internal">Block #<?php echo $height; ?></a></li>
         </ul>
         <h2>Block #<?php echo $height; ?></h2>
         <table width="100%">
@@ -110,11 +110,11 @@ if ($reward > 280) {
             </tr>
             <tr>
                 <td class="tableRowLabel">Previous Block:</td>
-                <td class="tableRowValue"><a href="http://www.mmc-chain.com/?engine=blockexplorer&hash=<?php echo $previousblockhash; ?>" class="internal"><?php echo $previousblockhash; ?></a></td>
+                <td class="tableRowValue"><a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $previousblockhash; ?>" class="internal"><?php echo $previousblockhash; ?></a></td>
             </tr>
             <tr>
                 <td class="tableRowLabel">Next Block:</td>
-                <td class="tableRowValue"><a href="http://www.mmc-chain.com/?engine=blockexplorer&hash=<?php echo $nextblockhash; ?>" class="internal"><?php echo $nextblockhash; ?></a></td>
+                <td class="tableRowValue"><a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $nextblockhash; ?>" class="internal"><?php echo $nextblockhash; ?></a></td>
             </tr>            
             <tr>
                 <td class="tableRowLabel">Merkle root:</td>
@@ -146,15 +146,15 @@ if ($reward > 280) {
             </tr>
             <tr>
                 <td class="tableRowLabel">Total Value:</td>
-                <td class="tableRowValue"><?php echo number_format($tvalue, 8, '.', ','); ?> MMC</td>
+                <td class="tableRowValue"><?php echo number_format($tvalue, 8, '.', ','); ?> MLC</td>
             </tr>			
             <tr>
                 <td class="tableRowLabel">Total Fees:</td>
-                <td class="tableRowValue"><?php echo number_format($tfee, 8, '.', ','); ?> MMC</td>
+                <td class="tableRowValue"><?php echo number_format($tfee, 8, '.', ','); ?> MLC</td>
             </tr>
             <tr>
                 <td class="tableRowLabel">Block Reward</td>
-                <td class="tableRowValue"><?php echo number_format($reward, 8, '.', ','); ?> MMC</td>
+                <td class="tableRowValue"><?php echo number_format($reward, 8, '.', ','); ?> MLC</td>
             </tr>
         </tbody></table>
     </div>

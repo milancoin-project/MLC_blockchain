@@ -4,17 +4,17 @@
 <script type="text/javascript" src="http://code.highcharts.com/stock/modules/exporting.js"></script>
 <script type="text/javascript">
 $(function() {
-	$.getJSON('http://www.mmc-chain.com/data/diff.json.php?callback=?', function(data) {
+	$.getJSON('/blockpath/data/diff.json.php?callback=?', function(data) {
 		$('#container').highcharts('StockChart', {
 			yAxis : { min : 0 },
 			xAxis : { lineColor: "#C0C0C0", lineWidth: 2 },
 			rangeSelector : { selected : 1 },
 			title : { text : 'MemoryCoins Difficulty' },
-			series : [{ name : 'MMC2', data : data, tooltip: { valueDecimals: 8	} }]
+			series : [{ name : 'MLC2', data : data, tooltip: { valueDecimals: 8	} }]
 		});
 	});
 	
-	$.getJSON('http://www.mmc-chain.com/data/quote.json.php?callback=?', function(data) {
+	$.getJSON('/blockpath/data/quote.json.php?callback=?', function(data) {
 		$('#container2').highcharts('StockChart', {
 			yAxis : { min : 0 },
 			xAxis : { lineColor: "#C0C0C0", lineWidth: 2 }, 
@@ -24,29 +24,29 @@ $(function() {
 		});
 	});
 
-	$.getJSON('http://www.mmc-chain.com/data/profit.json.php?callback=?', function(data) {
+	$.getJSON('/blockpath/data/profit.json.php?callback=?', function(data) {
 		$('#container3').highcharts('StockChart', {
 			yAxis : { min : 0 },
 			xAxis : { lineColor: "#C0C0C0", lineWidth: 2 },
 			rangeSelector : { selected : 1 },
-			title : { text : 'MMC Mining Profit (BTC per DAY/HASH per Minute)' },
+			title : { text : 'MLC Mining Profit (BTC per DAY/HASH per Minute)' },
 			series : [{ name : 'BTC', data : data, tooltip: { valueDecimals: 8 } }]
 		});
 	});
 	
-	$.getJSON('http://www.mmc-chain.com/data/reward.json.php?callback=?', function(data) {
+	$.getJSON('/blockpath/data/reward.json.php?callback=?', function(data) {
 		$('#container4').highcharts('StockChart', {
 			rangeSelector : { selected : 5 },
-			title : { text : 'MMC - Mined Block Reward' },
-			series : [{ name : 'MMC', data : data, tooltip: { valueDecimals: 3 } }]
+			title : { text : 'MLC - Mined Block Reward' },
+			series : [{ name : 'MLC', data : data, tooltip: { valueDecimals: 3 } }]
 		});
 	});
 	
-	$.getJSON('http://www.mmc-chain.com/data/volume.json.php?callback=?', function(data) {
+	$.getJSON('/blockpath/data/volume.json.php?callback=?', function(data) {
 		$('#container5').highcharts('StockChart', {
 			rangeSelector : { selected : 5 },
-			title : { text : 'MMC Coins Amount' },
-			series : [{ name : 'MMC', data : data, tooltip: { valueDecimals: 3 } }]
+			title : { text : 'MLC Coins Amount' },
+			series : [{ name : 'MLC', data : data, tooltip: { valueDecimals: 3 } }]
 		});
 	});	
 });
@@ -54,10 +54,10 @@ $(function() {
 <div id="logo-region">
   <div class="row">
     <div class="small-8 large-3 large-offset-0 small-offset-2 columns logo">
-	<a href="http://www.mmc-chain.com" class="internal"><img src="/img/logo_small.png" alt="" /></a>
+	<a href="/blockpath/" class="internal"><img src="/blockpath/img/logo_small.png" alt="" /></a>
     </div>
     <div class="large-9 small-12 columns main-search-box" style="margin-bottom: 0">
-	<form action="/?engine=search" method="POST" >
+	<form action="/blockpath/index.php?engine=search" method="POST" >
 		<input id="searchBox" name="query" type="text" placeholder="Search for block, transaction or address in " style="font-size: 1.2em;" size="64" />
 	</form>
 	</div>

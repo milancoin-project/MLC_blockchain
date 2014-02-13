@@ -24,14 +24,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>MMC Network</title>
+<title>MLC Network</title>
 </head>
 <body>
 <div>Last Update: <? echo date("F j, Y, g:i a",$lastUpdate);?></div>
 <div id="map" style="width: 800px;"></div>
 <div id="chart" style="width: 800px;"></div>
 
-<script type="text/javascript" src="//www.google.com/jsapi"></script>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 <script type="text/javascript">
 var region = "world";
 var total_count = 150;

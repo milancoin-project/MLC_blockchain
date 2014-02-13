@@ -35,7 +35,7 @@ $totalcoin = $totalcoin + ($totalcoin / 100 * 1.2); // Salary Staff
 $result = array("memorycoin" => array( "block_height" => $height, "block_reward" => $reward, "difficulty" => $difficulty, "total_minted" => $totalcoin ));
 
 //echo json_encode($result);
-$f = fopen("/var/www/blockchain/api/v1/coincap.json", "w");
+$f = fopen("/var/www/blockpath/api/v1/coincap.json", "w");
 fwrite($f, json_encode($result));
 fclose($f); 
 
