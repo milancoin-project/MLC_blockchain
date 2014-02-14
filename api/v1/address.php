@@ -44,9 +44,9 @@ function apiquery($field) {
 		$txrows .= '
 				<tr>
 					<td class="blocksHash">
-						<a href="/blockpath/index.php?engine=blockexplorer&blockid=' . $blocknum . '" class="internal transactionLink">' . $blocknum . '</a></td>
+						<a href="/block-height/' . $blocknum . '" class="internal transactionLink">' . $blocknum . '</a></td>
 					<td class="transactionHash">
-						<a href="/blockpath/index.php?engine=blockexplorer&tx=' . $tx . '" class="internal transactionLink">' . $tx . '</a>
+						<a href="/tx/' . $tx . '" class="internal transactionLink">' . $tx . '</a>
 					</td>
 					<td class="hide-for-small transactedDate">' . gmdate("M j Y g:i:s A", $time2) . '</td>
 					<td class="transactedAmount"><img class="transactionDirection" src="/blockpath/img/' . $type .'.png" /></td>

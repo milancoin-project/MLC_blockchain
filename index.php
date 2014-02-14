@@ -137,7 +137,7 @@ function redirect_search($input) {
 		
 		if ($result->num_rows >0) {
 			$result->close();
-			header('Location: ?engine=blockexplorer&blockid='.$input);
+			header('Location: /block-height/'.$input);
 			break;
 		}
     }
@@ -152,7 +152,7 @@ function redirect_search($input) {
 		
 		if ($result->num_rows >0) {
 			$result->close();
-			header('Location: ?engine=blockexplorer&address='.$input);
+			header('Location: /address/'.$input);
 			break;
 		}
     }
@@ -165,7 +165,7 @@ function redirect_search($input) {
 		
 	if ($result->num_rows >0) {
 		$result->close();
-		header('Location: ?engine=blockexplorer&hash='.$input); 
+		header('Location: /block/'.$input); 
 		break;
 	}		
 	
@@ -174,7 +174,7 @@ function redirect_search($input) {
 		
 	if ($result->num_rows >0) {
 		$result->close();
-		header('Location: ?engine=blockexplorer&tx='.$input);
+		header('Location: /tx/'.$input);
 		break;
 	}		
 	
@@ -183,7 +183,7 @@ function redirect_search($input) {
 		
 	if ($result->num_rows >0) {
 		$row = mysqli_fetch_assoc($result);
-		header('Location: ?engine=blockexplorer&address='.$row['address']);
+		header('Location: /address/'.$row['address']);
 		$result->close();
 		break;
 	}		
@@ -192,7 +192,7 @@ function redirect_search($input) {
 
     if(strlen($input) == 40 && preg_match("/[0-9a-f]{4,130}/", $input)) {
         if($address) { 
-			header('Location: ?engine=blockexplorer&address='.$input);
+			header('Location: /address/'.$input);
 			break;
 		}
 	}

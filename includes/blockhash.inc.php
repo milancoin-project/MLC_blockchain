@@ -41,7 +41,7 @@ while ($stmt->fetch()) {
 	
 	$txrows .= '
 		<tr>
-			<td class="transactionHash"><a href="/blockpath/index.php?engine=blockexplorer&tx=' . $txhash . '" class="internal transactionLink">' . $txhash . '</a></td>
+			<td class="transactionHash"><a href="/tx/' . $txhash . '" class="internal transactionLink">' . $txhash . '</a></td>
 			<td class="transactedDate hide-for-small">' . gmdate("M j Y g:i:s A", $txtime) . '</td>
 			<td class="transactedAmount hide-for-small">' . number_format($txfee, 8, '.', ',') . '</td>
 			<td class="transactedAmount hide-for-small">' . number_format($txoutvalue, 8, '.', ',') . ' MLC</td>
@@ -83,7 +83,7 @@ if ($reward > 280) {
     <div class="large-12 columns">
         <ul class="breadcrumbs">
             <li><a class="internal" href="/blockpath/index.php?engine=blockexplorer">blockchain</a></li>
-            <li class="current"><a href="/blockpath/index.php?engine=blockexplorer&blockid=<?php echo $height; ?>" class="internal">Block #<?php echo $height; ?></a></li>
+            <li class="current"><a href="/block-height/<?php echo $height; ?>" class="internal">Block #<?php echo $height; ?></a></li>
         </ul>
         <h2>Block #<?php echo $height; ?></h2>
         <table width="100%">
@@ -110,11 +110,11 @@ if ($reward > 280) {
             </tr>
             <tr>
                 <td class="tableRowLabel">Previous Block:</td>
-                <td class="tableRowValue"><a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $previousblockhash; ?>" class="internal"><?php echo $previousblockhash; ?></a></td>
+                <td class="tableRowValue"><a href="/block/<?php echo $previousblockhash; ?>" class="internal"><?php echo $previousblockhash; ?></a></td>
             </tr>
             <tr>
                 <td class="tableRowLabel">Next Block:</td>
-                <td class="tableRowValue"><a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $nextblockhash; ?>" class="internal"><?php echo $nextblockhash; ?></a></td>
+                <td class="tableRowValue"><a href="/block/<?php echo $nextblockhash; ?>" class="internal"><?php echo $nextblockhash; ?></a></td>
             </tr>            
             <tr>
                 <td class="tableRowLabel">Merkle root:</td>

@@ -28,7 +28,7 @@ while ($stmt->fetch()) {
 	if ($inaddress) {
 		$input .= '
 					<tr>
-                        <td><a href="/blockpath/index.php?engine=blockexplorer&address=' . $inaddress .'" class="internal">' . $inaddress .'</a></td>
+                        <td><a href="/address/' . $inaddress .'" class="internal">' . $inaddress .'</a></td>
                         <td style="text-align: right;">' . number_format($invalue, 8, '.', ',') .' MLC</td>
                     </tr>';
 	} else {
@@ -52,7 +52,7 @@ $stmt->bind_result($outvalue, $outaddress);
 while ($stmt->fetch()) {
 	$output .= '
 				<tr>
-                    <td><a href="/blockpath/index.php?engine=blockexplorer&address=' . $outaddress .'" class="internal">' . $outaddress .'</a></td>
+                    <td><a href="/address/' . $outaddress .'" class="internal">' . $outaddress .'</a></td>
                     <td style="text-align: right;">' . number_format($outvalue, 8, '.', ',') .' MLC</td>
                 </tr>';
 
@@ -92,7 +92,7 @@ if ($totalfees < 0) $totalfees = -$totalfees;
         <ul class="breadcrumbs">
             <li><a class="internal" href="/blockpath/index.php?engine=blockexplorer">blockchain</a></li>
             <li class="unavailable"><a href="/blockpath/index.php?engine=blockexplorer" class="internal">Transactions</a></li>
-            <li class="current"><a href="/blockpath/index.php?engine=blockexplorer&tx=<?php echo $txhash; ?>" class="internal">#<?php echo $txhash; ?></a></li>
+            <li class="current"><a href="/tx/<?php echo $txhash; ?>" class="internal">#<?php echo $txhash; ?></a></li>
         </ul>
         <h2>Transaction <small class="hash">#<?php echo $txhash; ?></small></h2>
     </div>
@@ -113,7 +113,7 @@ if ($totalfees < 0) $totalfees = -$totalfees;
 				</tr>
                 <tr>
 					<td class="tableRowLabel">In Blocks</td><td class="tableRowValue hashSize">
-						<a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $block; ?>" class="internal"><?php echo $block; ?></a><br />
+						<a href="/block/<?php echo $block; ?>" class="internal"><?php echo $block; ?></a><br />
 					</td>
                 </tr>
                 <tr><td class="tableRowLabel">Total Input</td><td class="tableRowValue"><?php echo number_format($totalinput, 8, '.', ','); ?> MLC</td></tr>

@@ -66,9 +66,9 @@ while ($stmt->fetch()) {
 	$txrows .= '
 				<tr>
 					<td class="blocksHash">
-						<a href="/blockpath/index.php?engine=blockexplorer&blockid=' . $blocknum . '" class="internal transactionLink">' . $blocknum . '</a></td>
+						<a href="/block-height/' . $blocknum . '" class="internal transactionLink">' . $blocknum . '</a></td>
 					<td class="transactionHash">
-						<a href="/blockpath/index.php?engine=blockexplorer&tx=' . $tx . '" class="internal transactionLink">' . $tx . '</a>
+						<a href="/tx/' . $tx . '" class="internal transactionLink">' . $tx . '</a>
 					</td>
 					<td class="hide-for-small transactedDate">' . gmdate("M j Y g:i:s A", $time2) . '</td>
 					<td class="transactedAmount"><img class="transactionDirection" src="/blockpath/img/' . $type .'.png" /></td>
@@ -118,7 +118,7 @@ while ($stmt->fetch()) {
             <tr><td class="tableRowLabel">Hash160</td><td class="tableRowValue"><?php echo $hash160; ?></td></tr>
 			<tr>
 				<td class="tableRowLabel">FirstSeen</td><td class="tableRowValue">
-					<a href="/blockpath/index.php?engine=blockexplorer&hash=<?php echo $firstseen; ?>" class="internal transactionLink"><?php echo gmdate("M j Y g:i:s A", $time); ?> - Block n. <?php echo $height; ?></a>
+					<a href="/block/<?php echo $firstseen; ?>" class="internal transactionLink"><?php echo gmdate("M j Y g:i:s A", $time); ?> - Block n. <?php echo $height; ?></a>
 				</td>
 			</tr>
             <tr><td class="tableRowLabel">Total Received</td><td class="tableRowValue"><?php echo number_format($received_mlc, 8, '.', ','); ?> MLC</td></tr>

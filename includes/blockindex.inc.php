@@ -13,7 +13,7 @@ while ($stmt->fetch()) {
 
 	$txrow .= '
             <tr class="block-member"><td class="blocksAmount"><b>' . $height . '</b></td>
-<td class="blocksHash"><a href="/blockpath/index.php?engine=blockexplorer&hash=' . $hash . '" class="internal transactionLink">' . $hash . '</a></td>
+<td class="blocksHash"><a href="/block/' . $hash . '" class="internal transactionLink">' . $hash . '</a></td>
 <td class="blocksDate hide-for-small">' . gmdate("M j Y g:i:s A", $time) . '</td>
 <td class="blocksAmount hide-for-small" style="text-align: center">' . $transactions . '</td>
 <td class="blocksAmount hide-for-small" style="text-align: center">' . $size . '</td>
