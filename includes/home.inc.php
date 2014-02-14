@@ -46,7 +46,7 @@ $stmt->close();
 			<div class="small-12 large-8 small-centered columns" style="text-align: center;margin-top: 9.0em">
 				<table align="center">
 					<tr>
-						<td>Total Blocks: <?php echo $height; ?></td><td>Total Coins: <?php echo number_format($totalmlc, 8, '.', ','); ?></td><td>Current Difficulty: <?php echo $diff; ?></td>
+						<td>Total Blocks: <a href="/block-height/<?php echo $height; ?>"><?php echo $height; ?></a></td><td>Total Coins: <?php echo number_format($totalmlc, 8, '.', ','); ?></td><td>Current Difficulty: <?php echo $diff; ?></td>
 					</tr>
 				</table>
 			</div>
