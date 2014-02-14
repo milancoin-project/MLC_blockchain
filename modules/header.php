@@ -27,9 +27,9 @@
 </ul>
 <ul class="right">
 <li><a href="/blockpath/index.php?engine=blockexplorer"><i class="fa fa-bars"></i> BlockExplorer</a></li>
-<li><a href="/blockpath/index.php?engine=voteexplorer" target="_blank"><i class="fa fa-book"></i> VoteExplorer</a></li>
-<li><a href="/blockpath/index.php?engine=nodeexplorer"><i class="fa fa-cog"></i> NodeExplorer</a></li>
-<li><a href="/blockpath/index.php?engine=onlinewallet" target="_blank"><i class="fa fa-book"></i> OnlineWallet</a></li>
+<li><a href="/blockpath/index.php?engine=onlinewallet" target="_blank"><i class="fa fa-book"></i> Index</a></li>
+<li><a href="/blockpath/index.php?engine=voteexplorer" target="_blank"><i class="fa fa-book"></i> GPU_Pool</a></li>
+<li><a href="/blockpath/index.php?engine=nodeexplorer"><i class="fa fa-cog"></i> Explorer</a></li>
 <li><a href="/blockpath/index.php?engine=support"><i class="fa fa-comments-o"></i> Support</a></li>
 </ul>
 </section>

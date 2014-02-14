@@ -1,5 +1,5 @@
 <?php
 
-header('Location: /');
+header('Location: http://www.milancoin.org/pool');
 
 ?>

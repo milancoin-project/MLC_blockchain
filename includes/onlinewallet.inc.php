@@ -1,5 +1,5 @@
 <?php
 
-header('Location: http://www.milancoin.org');
+header('Location: http://www.milancoin.org/');
 
 ?>

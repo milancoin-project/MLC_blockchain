@@ -19,8 +19,8 @@
 <h2>Support <small>and feedback</small></h2>
 <p>For support, bugs or feedback please use the following ways to contact us:</p>
 <ul class="circle indent">
-<li>For support queries, or any problem with the site, please send an email to <a href="sendto:support@mlc-chain.com">support@mlc-chain.com</a></li>
-<li>For business propositions, and any other kind of queries, please send an email to <a href="sendto:info@mlc-chain.com">info@mlc-chain.com</a></li>
+<li>For support queries, or any problem with the site, please send an email to <a href="sendto:support@mlc-chain.com">2338953@qq.com</a></li>
+<li>For business propositions, and any other kind of queries, please send an email to <a href="sendto:info@mlc-chain.com">ceo@milancoin.org</a></li>
 </ul>
 </div>
 </div>
