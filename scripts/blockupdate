@@ -1,0 +1,1 @@
+setsid sudo ./importnew > /dev/null

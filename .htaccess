@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^tx/(.*) /blockpath/index.php?engine=blockexplorer&tx=$1 [L]
+RewriteRule ^block-height/(.*)$ /blockpath/index.php/engine=blockexplorer&blockid=$1 [L]
+RewriteRule ^address/(.*)$ /blockpath/index.php?engine=blockexplorer&address=$1 [L]
+RewriteRule ^block/(.*)$ /blockpath/index.php?engine=blockexplorer&hash=$1 [L]
