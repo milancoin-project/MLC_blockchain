@@ -33,6 +33,7 @@ $stmt->bind_param('ss', $hash160, $hash160);
 $stmt->execute();
 $stmt->bind_result($txtype, $type, $tx, $value, $id, $block, $blocknum, $time2);
 
+$i = 0;
 while ($stmt->fetch()) {
 
 	if($type == "credit") {
@@ -60,6 +61,8 @@ while ($stmt->fetch()) {
 		print_r($inputrows);
 	}
 */
+    if ($i < 100){
+	$i = $i + 1;
 	$txrows .= '
 				<tr>
 					<td class="blocksHash">
@@ -70,8 +73,10 @@ while ($stmt->fetch()) {
 					<td class="hide-for-small transactedDate">' . gmdate("M j Y g:i:s A", $time2) . '</td>
 					<td class="transactedAmount"><img class="transactionDirection" src="/blockpath/img/' . $type .'.png" /></td>
 					<td class="transactedAmount" style="text-align: right;">' . number_format($value, 8, '.', ',') . ' MLC</td>
-				</tr>';	
+				</tr>';
+	}
 }
+	if ($i>100){$txrows .= '<tr>COUNTS:'.$i.'...</tr>';}
 								 
 ?>
 <section>
