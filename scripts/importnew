@@ -171,22 +171,7 @@ function process_transaction($txhash, $blockhash, $blocknum) {
     foreach($decoded["vin"] as $input) {
 		if(isset($input['coinbase'])) {
 			$type = "Generation";
-			$value = 280;
-			
-		    if($blocknum < 240){
-				$value = $value / (240 - $blocknum);
-			} else {
-				$counter = (int)($blocknum / 1680);
-			
-				for($i = 0; $i < $counter; $i++){
-					$value = $value * 19 / 20;
-				}
-				
-				if($value < (float)"2.15"){
-					$value = (float)"2.15";
-				}
-			}
-			
+			$value = $decoded["vout"]["value"];
 			$scriptsig = $input['coinbase'];
 		} else {
 			$prev = $input['txid'];
